@@ -16,7 +16,7 @@ public class SolutionService {
     }
 
     public Solution postSolution(Solution solution) {
-        if (solution == null || solution.getGridData() == null) {
+        if (solution == null || solution.getGridData() == null || solution.getResult() == null) {
             throw new IllegalArgumentException("Solution must not be null");
         }
         return solutionRepo.save(solution);
