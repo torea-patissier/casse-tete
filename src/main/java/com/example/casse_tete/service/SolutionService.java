@@ -17,6 +17,7 @@ public class SolutionService {
     private static int BRAVO = 12;
     private static int CHARLIE = 11;
     private static int DELTA = 10;
+    private static int RESULT_TO_FIND = 66;
 
     @Autowired
     public SolutionService(SolutionRepo solutionRepo) {
@@ -85,7 +86,7 @@ public class SolutionService {
         try {
             int result = calculateResult(parseJson(solution.getGridData()));
 
-            if(result == 66.0 ){
+            if(result == RESULT_TO_FIND ){
                 solution.setCorrect(true);
             }else{
                 solution.setCorrect(false);
