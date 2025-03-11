@@ -23,17 +23,29 @@ public class SolutionService {
             JsonNode jsonNode = new ObjectMapper().readTree(gridData);
             int B = jsonNode.get("B").asInt();
             int C = jsonNode.get("C").asInt();
-            return (13.0*B) / C;
+            return (13.0 * B) / C;
         } catch (Exception ex) {
             throw new RuntimeException("Error while calculating alpha");
         }
     }
 
-    private int calculBravo(String griData){
+    private double calculBravo(String griData){
         try{
             JsonNode jsonNode = new ObjectMapper().readTree(griData);
             int E = jsonNode.get("E").asInt();
-            return 12 * E;
+            return 12.0 * E;
+        } catch (RuntimeException | JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private double calculCharlie(String gridData){
+        try{
+            JsonNode jsonNode = new ObjectMapper().readTree(gridData);
+            int G = jsonNode.get("G").asInt();
+            int H = jsonNode.get("H").asInt();
+            int I = jsonNode.get("I").asInt();
+            return (G * H) / I;
         } catch (RuntimeException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -41,9 +53,15 @@ public class SolutionService {
 
     private double calculateResult(String gridData){
         try {
+            JsonNode jsonNode = new ObjectMapper().readTree(gridData);
+            int A = jsonNode.get("A").asInt();
+            int D = jsonNode.get("D").asInt();
+            int F = jsonNode.get("F").asInt();
+
             double alphaResult = calculAlpha(gridData);
-            int bravoResult = calculBravo(gridData);
-            return bravoResult;
+            double bravoResult = calculBravo(gridData);
+            double charlieResult = calculCharlie(gridData);
+            return A + alphaResult + D + bravoResult - F - 11 + charlieResult - 10 ;
         } catch (Exception ex) {
             throw new RuntimeException("Error while calculating result");
         }
@@ -56,10 +74,13 @@ public class SolutionService {
 
         try {
             double result = calculateResult(solution.getGridData());
-            if(result == 66 ){
+
+            if(result == 66.0 ){
                 solution.setCorrect(true);
+            }else{
+                solution.setCorrect(false);
             }
-            solution.setCorrect(false);
+
             solution.setResult(result);
             return solutionRepo.save(solution);
         } catch (Exception e) {
