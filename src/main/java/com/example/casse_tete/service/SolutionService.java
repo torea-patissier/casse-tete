@@ -13,6 +13,11 @@ public class SolutionService {
 
     private final SolutionRepo solutionRepo;
 
+    private static double ALPHA = 13.0;
+    private static double BRAVO = 12.0;
+    private static double CHARLIE = 11.0;
+    private static double DELTA = 10.0;
+
     @Autowired
     public SolutionService(SolutionRepo solutionRepo) {
         this.solutionRepo = solutionRepo;
@@ -30,7 +35,7 @@ public class SolutionService {
         try {
             int B = jsonNode.get("B").asInt();
             int C = jsonNode.get("C").asInt();
-            return (13.0 * B) / C;
+            return (ALPHA * B) / C;
         } catch (Exception ex) {
             throw new RuntimeException("Error while calculating alpha :" + ex.getMessage());
         }
@@ -39,7 +44,7 @@ public class SolutionService {
     private double calculBravo(JsonNode jsonNode){
         try{
             int E = jsonNode.get("E").asInt();
-            return 12.0 * E;
+            return BRAVO * E;
         } catch (RuntimeException ex) {
             throw new RuntimeException("Error while calculating bravo :" + ex.getMessage());
         }
@@ -66,7 +71,7 @@ public class SolutionService {
             double bravoResult = calculBravo(jsonNode);
             double charlieResult = calculCharlie(jsonNode);
 
-            return A + alphaResult + D + bravoResult - F - 11 + charlieResult - 10 ;
+            return A + alphaResult + D + bravoResult - F - CHARLIE + charlieResult - DELTA ;
         } catch (Exception ex) {
             throw new RuntimeException("Error while calculating result");
         }
