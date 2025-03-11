@@ -18,6 +18,7 @@ public class SolutionService {
     private static int CHARLIE = 11;
     private static int DELTA = 10;
     private static int RESULT_TO_FIND = 66;
+    private static final long NANOSEC_IN_MILLISECOND = 1_000_000;
 
     @Autowired
     public SolutionService(SolutionRepo solutionRepo) {
@@ -71,8 +72,8 @@ public class SolutionService {
             int alphaResult = calculAlpha(jsonNode);
             int bravoResult = calculBravo(jsonNode);
             int charlieResult = calculCharlie(jsonNode);
-
-            return A + alphaResult + D + bravoResult - F - CHARLIE + charlieResult - DELTA ;
+            int result = A + alphaResult + D + bravoResult - F - CHARLIE + charlieResult - DELTA ;
+            return result;
         } catch (Exception ex) {
             throw new RuntimeException("Error while calculating result");
         }
@@ -83,6 +84,7 @@ public class SolutionService {
             throw new IllegalArgumentException("Solution must have a valid gridData");
         }
 
+        long startTime = System.nanoTime();
         try {
             int result = calculateResult(parseJson(solution.getGridData()));
 
@@ -92,6 +94,10 @@ public class SolutionService {
                 solution.setCorrect(false);
             }
 
+            long endTime = System.nanoTime();
+            long duration = (endTime - startTime) / NANOSEC_IN_MILLISECOND;
+
+            solution.setDuration_is_ms(duration);
             solution.setResult(result);
             return solutionRepo.save(solution);
         } catch (Exception e) {
