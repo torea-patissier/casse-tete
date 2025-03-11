@@ -31,4 +31,31 @@ public class BookService {
         }
         return bookRepo.save(book);
     }
+
+    public Book getBookById(Long id) {
+        if(id == null){
+            throw new IllegalArgumentException("Id must not be null");
+        }
+        return bookRepo.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+    }
+
+    public void deleteBookById(Long id) {
+        if (!bookRepo.existsById(id)) {
+            throw new RuntimeException("Book not found with ID: " + id);
+        }
+        bookRepo.deleteById(id);
+    }
+
+    public Book updateBookById(Long id, Book newBookData) {
+        if (id == null || newBookData == null || newBookData.getTitle() == null || newBookData.getAuthor() == null) {
+            throw new IllegalArgumentException("Id, book title and author must not be null");
+        }
+        if (!bookRepo.existsById(id)) {
+            throw new RuntimeException("Book not found with ID: " + id);
+        }
+        Book oldBookData = bookRepo.findById(id).get();
+        oldBookData.setTitle(newBookData.getTitle());
+        oldBookData.setAuthor(newBookData.getAuthor());
+        return bookRepo.save(oldBookData);
+    }
 }
