@@ -2,6 +2,7 @@ package com.example.casse_tete.service;
 
 import com.example.casse_tete.model.Solution;
 import com.example.casse_tete.repo.SolutionRepo;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,21 @@ public class SolutionService {
         }
     }
 
+    private int calculBravo(String griData){
+        try{
+            JsonNode jsonNode = new ObjectMapper().readTree(griData);
+            int E = jsonNode.get("E").asInt();
+            return 12 * E;
+        } catch (RuntimeException | JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private double calculateResult(String gridData){
         try {
-            double calculatedAlpha = calculAlpha(gridData);
-            return calculatedAlpha;
+            double alphaResult = calculAlpha(gridData);
+            int bravoResult = calculBravo(gridData);
+            return bravoResult;
         } catch (Exception ex) {
             throw new RuntimeException("Error while calculating result");
         }
