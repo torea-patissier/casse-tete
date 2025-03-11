@@ -20,7 +20,7 @@ public class Solution {
     private String gridData;
 
     @Column(nullable = false)
-    private Double result;
+    private Integer result;
 
     @Column(nullable = false)
     private boolean isCorrect;

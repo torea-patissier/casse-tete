@@ -13,10 +13,10 @@ public class SolutionService {
 
     private final SolutionRepo solutionRepo;
 
-    private static double ALPHA = 13.0;
-    private static double BRAVO = 12.0;
-    private static double CHARLIE = 11.0;
-    private static double DELTA = 10.0;
+    private static int ALPHA = 13;
+    private static int BRAVO = 12;
+    private static int CHARLIE = 11;
+    private static int DELTA = 10;
 
     @Autowired
     public SolutionService(SolutionRepo solutionRepo) {
@@ -31,7 +31,7 @@ public class SolutionService {
         }
     }
 
-    private double calculAlpha(JsonNode jsonNode){
+    private int calculAlpha(JsonNode jsonNode){
         try {
             int B = jsonNode.get("B").asInt();
             int C = jsonNode.get("C").asInt();
@@ -41,7 +41,7 @@ public class SolutionService {
         }
     }
 
-    private double calculBravo(JsonNode jsonNode){
+    private int calculBravo(JsonNode jsonNode){
         try{
             int E = jsonNode.get("E").asInt();
             return BRAVO * E;
@@ -50,7 +50,7 @@ public class SolutionService {
         }
     }
 
-    private double calculCharlie(JsonNode jsonNode){
+    private int calculCharlie(JsonNode jsonNode){
         try{
             int G = jsonNode.get("G").asInt();
             int H = jsonNode.get("H").asInt();
@@ -61,15 +61,15 @@ public class SolutionService {
         }
     }
 
-    private double calculateResult(JsonNode jsonNode){
+    private int calculateResult(JsonNode jsonNode){
         try {
             int A = jsonNode.get("A").asInt();
             int D = jsonNode.get("D").asInt();
             int F = jsonNode.get("F").asInt();
 
-            double alphaResult = calculAlpha(jsonNode);
-            double bravoResult = calculBravo(jsonNode);
-            double charlieResult = calculCharlie(jsonNode);
+            int alphaResult = calculAlpha(jsonNode);
+            int bravoResult = calculBravo(jsonNode);
+            int charlieResult = calculCharlie(jsonNode);
 
             return A + alphaResult + D + bravoResult - F - CHARLIE + charlieResult - DELTA ;
         } catch (Exception ex) {
@@ -83,7 +83,7 @@ public class SolutionService {
         }
 
         try {
-            double result = calculateResult(parseJson(solution.getGridData()));
+            int result = calculateResult(parseJson(solution.getGridData()));
 
             if(result == 66.0 ){
                 solution.setCorrect(true);
