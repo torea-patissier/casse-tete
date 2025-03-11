@@ -18,7 +18,7 @@ public class SolutionService {
     private static int CHARLIE = 11;
     private static int DELTA = 10;
     private static int RESULT_TO_FIND = 66;
-    private static final long NANOSEC_IN_MILLISECOND = 1_000_000;
+    private static final long NANO_SEC_IN_MILLISECOND = 1_000_000;
 
     @Autowired
     public SolutionService(SolutionRepo solutionRepo) {
@@ -95,7 +95,7 @@ public class SolutionService {
             }
 
             long endTime = System.nanoTime();
-            long duration = (endTime - startTime) / NANOSEC_IN_MILLISECOND;
+            long duration = (endTime - startTime) / NANO_SEC_IN_MILLISECOND;
 
             solution.setDuration_is_ms(duration);
             solution.setResult(result);
