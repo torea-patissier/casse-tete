@@ -12,19 +12,18 @@ import org.springframework.stereotype.Service;
 public class SolutionService {
 
     private final SolutionRepo solutionRepo;
-
-    private static int FIRST_INPUT = 13;
-    private static int SECOND_INPUT = 12;
-    private static int THIRD_INPUT = 11;
-    private static int FOURTH_INPUT = 10;
-    private static int EXPECTED_RESULT = 66;
+    private static final int FIRST_INPUT = 13;
+    private static final int SECOND_INPUT = 12;
+    private static final int THIRD_INPUT = 11;
+    private static final int FOURTH_INPUT = 10;
+    private static final int EXPECTED_RESULT = 66;
 
     @Autowired
     public SolutionService(SolutionRepo solutionRepo) {
         this.solutionRepo = solutionRepo;
     }
 
-    public static JsonNode parseJson(String gridData) {
+    private static JsonNode parseJson(String gridData) {
         try {
             return new ObjectMapper().readTree(gridData);
         } catch (JsonProcessingException e) {
