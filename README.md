@@ -2,7 +2,7 @@
 # H2 Database
 Run the CasseTeteApplication, access the H2 database :
 - **URL**: [http://localhost:9090/h2/](http://localhost:9090/h2/)
-- **JDBC URL**: `jdbc:h2:mem:testdb`
+- **JDBC URL**: `jdbc:h2:file:./data/testdb`
 - **Username**: `sa`
 - **Password**: *(leave empty)*
 

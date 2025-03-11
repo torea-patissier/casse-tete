@@ -126,6 +126,4 @@ public class SolutionService {
     public void deleteAllSolutions() {
         solutionRepo.deleteAll();
     }
-
-
 }
