@@ -23,8 +23,8 @@ public class Solution {
     private Integer result;
 
     @Column(nullable = false)
-    private boolean isCorrect;
+    private boolean isCorrect = false;
 
     @Column(nullable = false)
-    private Long duration_is_ms;
+    private Long duration_in_ms;
 }

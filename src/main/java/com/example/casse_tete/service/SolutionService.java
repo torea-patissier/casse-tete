@@ -13,12 +13,11 @@ public class SolutionService {
 
     private final SolutionRepo solutionRepo;
 
-    private static int ALPHA = 13;
-    private static int BRAVO = 12;
-    private static int CHARLIE = 11;
-    private static int DELTA = 10;
-    private static int RESULT_TO_FIND = 66;
-    private static final long NANO_SEC_IN_MILLISECOND = 1_000_000;
+    private static int FIRST_INPUT = 13;
+    private static int SECOND_INPUT = 12;
+    private static int THIRD_INPUT = 11;
+    private static int FOURTH_INPUT = 10;
+    private static int EXPECTED_RESULT = 66;
 
     @Autowired
     public SolutionService(SolutionRepo solutionRepo) {
@@ -33,26 +32,26 @@ public class SolutionService {
         }
     }
 
-    private int calculAlpha(JsonNode jsonNode){
+    private int calculA(JsonNode jsonNode){
         try {
             int B = jsonNode.get("B").asInt();
             int C = jsonNode.get("C").asInt();
-            return (ALPHA * B) / C;
+            return (FIRST_INPUT * B) / C;
         } catch (Exception ex) {
             throw new RuntimeException("Error while calculating alpha :" + ex.getMessage());
         }
     }
 
-    private int calculBravo(JsonNode jsonNode){
+    private int calculB(JsonNode jsonNode){
         try{
             int E = jsonNode.get("E").asInt();
-            return BRAVO * E;
+            return SECOND_INPUT * E;
         } catch (RuntimeException ex) {
             throw new RuntimeException("Error while calculating bravo :" + ex.getMessage());
         }
     }
 
-    private int calculCharlie(JsonNode jsonNode){
+    private int calculC(JsonNode jsonNode){
         try{
             int G = jsonNode.get("G").asInt();
             int H = jsonNode.get("H").asInt();
@@ -69,10 +68,11 @@ public class SolutionService {
             int D = jsonNode.get("D").asInt();
             int F = jsonNode.get("F").asInt();
 
-            int alphaResult = calculAlpha(jsonNode);
-            int bravoResult = calculBravo(jsonNode);
-            int charlieResult = calculCharlie(jsonNode);
-            int result = A + alphaResult + D + bravoResult - F - CHARLIE + charlieResult - DELTA ;
+            int aResult = calculA(jsonNode);
+            int bResult = calculB(jsonNode);
+            int cResult = calculC(jsonNode);
+
+            int result = A + aResult + D + bResult - F - THIRD_INPUT + cResult - FOURTH_INPUT;
             return result;
         } catch (Exception ex) {
             throw new RuntimeException("Error while calculating result");
@@ -80,29 +80,24 @@ public class SolutionService {
     }
 
     public Solution postSolution(Solution solution) {
+        long startTime = System.currentTimeMillis();
         if (solution == null || solution.getGridData() == null || solution.getGridData().trim().isEmpty()) {
             throw new IllegalArgumentException("Solution must have a valid gridData");
         }
 
-        long startTime = System.nanoTime();
         try {
             int result = calculateResult(parseJson(solution.getGridData()));
-
-            if(result == RESULT_TO_FIND ){
+            if(result == EXPECTED_RESULT){
                 solution.setCorrect(true);
-            }else{
-                solution.setCorrect(false);
             }
 
-            long endTime = System.nanoTime();
-            long duration = (endTime - startTime) / NANO_SEC_IN_MILLISECOND;
-
-            solution.setDuration_is_ms(duration);
             solution.setResult(result);
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime ;
+            solution.setDuration_in_ms(duration);
             return solutionRepo.save(solution);
         } catch (Exception e) {
             throw new RuntimeException("Failed to process solution: Invalid gridData format", e);
         }
     }
-
 }

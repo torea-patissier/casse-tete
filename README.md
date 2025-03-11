@@ -28,12 +28,12 @@ Run the CasseTeteApplication, access the H2 database :
 ### The operations are:
 | Operation | Value      |
 |-----------|------------|
-| ALPHA     | 13 * B / C |
-| BRAVO     | 12 * E     |
-| CHARLIE   | G * H / I  |
+| calculA   | 13 * B / C |
+| calculB   | 12 * E     |
+| calculC   | G * H / I  |
 
 ### The final equation is:
-- A + ALPHA + D + BRAVO - F - 11 + CHARLIE - 10
+- A + calculA + D + calculB - F - 11 + calculB - 10
 
 ## How I proceed to calculate the solution
 - I start by giving a letter for each position in the equation
