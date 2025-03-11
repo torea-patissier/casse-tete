@@ -18,49 +18,54 @@ public class SolutionService {
         this.solutionRepo = solutionRepo;
     }
 
-    private double calculAlpha(String gridData){
+    public static JsonNode parseJson(String gridData) {
         try {
-            JsonNode jsonNode = new ObjectMapper().readTree(gridData);
+            return new ObjectMapper().readTree(gridData);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error while parsing gridData");
+        }
+    }
+
+    private double calculAlpha(JsonNode jsonNode){
+        try {
             int B = jsonNode.get("B").asInt();
             int C = jsonNode.get("C").asInt();
             return (13.0 * B) / C;
         } catch (Exception ex) {
-            throw new RuntimeException("Error while calculating alpha");
+            throw new RuntimeException("Error while calculating alpha :" + ex.getMessage());
         }
     }
 
-    private double calculBravo(String griData){
+    private double calculBravo(JsonNode jsonNode){
         try{
-            JsonNode jsonNode = new ObjectMapper().readTree(griData);
             int E = jsonNode.get("E").asInt();
             return 12.0 * E;
-        } catch (RuntimeException | JsonProcessingException e) {
-            throw new RuntimeException(e);
+        } catch (RuntimeException ex) {
+            throw new RuntimeException("Error while calculating bravo :" + ex.getMessage());
         }
     }
 
-    private double calculCharlie(String gridData){
+    private double calculCharlie(JsonNode jsonNode){
         try{
-            JsonNode jsonNode = new ObjectMapper().readTree(gridData);
             int G = jsonNode.get("G").asInt();
             int H = jsonNode.get("H").asInt();
             int I = jsonNode.get("I").asInt();
             return (G * H) / I;
-        } catch (RuntimeException | JsonProcessingException e) {
-            throw new RuntimeException(e);
+        } catch (RuntimeException ex) {
+            throw new RuntimeException("Error while calculating charlie :" + ex.getMessage());
         }
     }
 
-    private double calculateResult(String gridData){
+    private double calculateResult(JsonNode jsonNode){
         try {
-            JsonNode jsonNode = new ObjectMapper().readTree(gridData);
             int A = jsonNode.get("A").asInt();
             int D = jsonNode.get("D").asInt();
             int F = jsonNode.get("F").asInt();
 
-            double alphaResult = calculAlpha(gridData);
-            double bravoResult = calculBravo(gridData);
-            double charlieResult = calculCharlie(gridData);
+            double alphaResult = calculAlpha(jsonNode);
+            double bravoResult = calculBravo(jsonNode);
+            double charlieResult = calculCharlie(jsonNode);
+
             return A + alphaResult + D + bravoResult - F - 11 + charlieResult - 10 ;
         } catch (Exception ex) {
             throw new RuntimeException("Error while calculating result");
@@ -73,7 +78,7 @@ public class SolutionService {
         }
 
         try {
-            double result = calculateResult(solution.getGridData());
+            double result = calculateResult(parseJson(solution.getGridData()));
 
             if(result == 66.0 ){
                 solution.setCorrect(true);
