@@ -22,7 +22,7 @@ public class SolutionService {
             JsonNode jsonNode = new ObjectMapper().readTree(gridData);
             int B = jsonNode.get("B").asInt();
             int C = jsonNode.get("C").asInt();
-            return 13*B/C;
+            return (13.0*B) / C;
         } catch (Exception ex) {
             throw new RuntimeException("Error while calculating alpha");
         }
