@@ -6,7 +6,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SolutionService {
@@ -99,4 +103,18 @@ public class SolutionService {
             throw new RuntimeException("Failed to process solution: Invalid gridData format", e);
         }
     }
+
+    public Solution getSolution(Long id) {
+        Optional<Solution> solution = solutionRepo.findById(id);
+        return solution.orElseThrow(() -> new RuntimeException("Solution with ID " + id + " not found"));
+    }
+
+    public List<Solution> getAllSolutions() {
+        List<Solution> solutions = solutionRepo.findAll();
+        if (solutions.isEmpty()) {
+            throw new RuntimeException("No solutions found");
+        }
+        return solutions;
+    }
+
 }
