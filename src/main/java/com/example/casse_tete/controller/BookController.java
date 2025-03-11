@@ -57,7 +57,7 @@ public class BookController {
         }
     }
 
-    @PostMapping("/updateBookById/{id}")
+    @PutMapping("/updateBookById/{id}")
     public ResponseEntity<Book> updateBookById(@PathVariable Long id, @RequestBody Book newBookData){
         try {
             Optional<Book> oldBookData = bookRepo.findById(id);
