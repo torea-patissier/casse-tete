@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class SolutionService {
         try {
             return new ObjectMapper().readTree(gridData);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error while parsing gridData");
+            throw new RuntimeException("Error while parsing gridData : " + e);
         }
     }
 
@@ -116,5 +115,17 @@ public class SolutionService {
         }
         return solutions;
     }
+
+    public void deleteSolution(Long id) {
+        if (!solutionRepo.existsById(id)) {
+            throw new RuntimeException("Solution with ID " + id + " not found");
+        }
+        solutionRepo.deleteById(id);
+    }
+
+    public void deleteAllSolutions() {
+        solutionRepo.deleteAll();
+    }
+
 
 }

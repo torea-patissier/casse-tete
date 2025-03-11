@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/solutions")
 public class SolutionController {
 
     private final SolutionService solutionService;
@@ -17,21 +18,37 @@ public class SolutionController {
         this.solutionService = solutionService;
     }
 
-    @PostMapping("/addSolution")
+    @PostMapping
     public ResponseEntity<Solution> postSolution(@RequestBody Solution solution) {
         Solution solutionObj = solutionService.postSolution(solution);
         return new ResponseEntity<>(solutionObj, HttpStatus.CREATED);
     }
 
-    @GetMapping("/getSolution/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Solution> getSolution(@PathVariable Long id){
         Solution solution = solutionService.getSolution(id);
         return new ResponseEntity<>(solution, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllSolutions")
+    @GetMapping
     public ResponseEntity<List<Solution>> getAllSolutions(){
         List<Solution> solutions = solutionService.getAllSolutions();
         return new ResponseEntity<>(solutions, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSolution(@PathVariable Long id) {
+        try {
+            solutionService.deleteSolution(id);
+            return new ResponseEntity<>("Solution deleted successfully", HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteAllSolutions() {
+        solutionService.deleteAllSolutions();
+        return ResponseEntity.noContent().build();
     }
 }
