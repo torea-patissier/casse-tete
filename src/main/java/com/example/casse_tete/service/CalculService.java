@@ -3,6 +3,7 @@ package com.example.casse_tete.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,8 +13,15 @@ public class CalculService {
     private static final int SECOND_INPUT = 12;
     private static final int THIRD_INPUT = 11;
     private static final int FOURTH_INPUT = 10;
+    private static ValidJsonService validJsonService = new ValidJsonService();
+
+    @Autowired
+    public CalculService(ValidJsonService validJsonService) {
+        this.validJsonService = validJsonService;
+    }
 
     static JsonNode parseJson(String gridData) {
+        validJsonService.show();
         try {
             return new ObjectMapper().readTree(gridData);
         } catch (JsonProcessingException e) {
