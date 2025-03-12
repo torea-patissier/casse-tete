@@ -1,52 +1,88 @@
 package com.example.casse_tete.service;
 
 import org.springframework.stereotype.Service;
+import java.io.*;
 import java.util.*;
 
 @Service
 public class AlgoService {
 
-    private static final int TO_MS = 1_000_000;
-    private static final double TO_SC = 1_000_000_000.0;
+    /**
+     * TODO : Save in db
+     */
+
+    private static final String FILE_PATH = "data/valid_results.txt";
 
     public String algo() {
         long startTime = System.nanoTime();
+        List<List<Integer>> validPermutations = new ArrayList<>();
+        List<Integer> digits = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        permute(digits, 0, validPermutations);
 
-        List<Integer> uniqueNumbers = generateUniqueNumbers();
+        long durationMs = (System.nanoTime() - startTime) / 1_000_000;
 
-        long durationNs = System.nanoTime() - startTime;
-        long durationMs = durationNs / TO_MS;
-        double durationSec = durationNs / TO_SC;
+        System.out.println("Total valid numbers found: " + validPermutations.size());
+        System.out.println("Duration: " + durationMs + " ms");
 
-        System.out.println("Total unique numbers generated: " + uniqueNumbers.size());
-        System.out.println("Duration: " + durationMs + " ms (" + durationSec + " sec)");
-
-        return "Duration: " + durationMs + " ms (" + durationSec + " sec)";
+        saveToFile(validPermutations);
+        return "Duration: " + durationMs + " ms";
     }
 
-    private List<Integer> generateUniqueNumbers() {
-        List<Integer> result = new ArrayList<>();
-        List<Character> digits = Arrays.asList('1', '2', '3', '4', '5', '6', '7', '8', '9');
-
-        System.out.println("Starting permutation process...");
-        permute(digits, 0, result);
-        return result;
-    }
-
-    private void permute(List<Character> arr, int index, List<Integer> result) {
+    private void permute(List<Integer> arr, int index, List<List<Integer>> validResults) {
         if (index == arr.size()) {
-            StringBuilder sb = new StringBuilder();
-            for (char c : arr) sb.append(c);
-            int num = Integer.parseInt(sb.toString());
-            result.add(num);
-            System.out.println("Generated number: " + num);
+            List<Integer> numbers = new ArrayList<>(arr);
+            if (isValid(numbers)) {
+                validResults.add(numbers);
+            }
             return;
         }
 
         for (int i = index; i < arr.size(); i++) {
             Collections.swap(arr, i, index);
-            permute(arr, index + 1, result);
+            permute(arr, index + 1, validResults);
             Collections.swap(arr, i, index);
+        }
+    }
+
+    private boolean isValid(List<Integer> numbers) {
+        int a = numbers.get(0);
+        int b = numbers.get(1);
+        int c = numbers.get(2);
+        int d = numbers.get(3);
+        int e = numbers.get(4);
+        int f = numbers.get(5);
+        int g = numbers.get(6);
+        int h = numbers.get(7);
+        int i = numbers.get(8);
+
+        if (b != 9 || c != 3 || e != 2 || f != 1 || i != 4) {
+            return false;
+        }
+
+        int alpha = (13 * b) / c;
+        int bravo = 12 * e;
+        int charlie = (g * h) / i;
+        int result = a + alpha + d + bravo - f - 11 + charlie - 10;
+        boolean isValid = result == 66;
+
+        if (!isValid) {
+            System.out.println("Invalid: " + numbers + " → result = " + result);
+        }
+
+        return isValid;
+    }
+
+    private void saveToFile(List<List<Integer>> validResults) {
+        File file = new File(FILE_PATH);
+        file.getParentFile().mkdirs();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            for (List<Integer> numbers : validResults) {
+                writer.write(numbers.toString() + "\n");
+            }
+            System.out.println("Data successfully saved to " + FILE_PATH);
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
         }
     }
 }

@@ -33,7 +33,7 @@ Run the CasseTeteApplication, access the H2 database :
 | calculC   | G * H / I  |
 
 ### The final equation is:
-- A + calculA + D + calculB - F - 11 + calculB - 10
+- A + calculA + D + calculB - F - 11 + calculC - 10
 
 ## How I proceed to calculate the solution
 - I start by giving a letter for each position in the equation
