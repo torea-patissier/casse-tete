@@ -12,8 +12,8 @@ import java.util.Optional;
 public class SolutionService {
 
     private final SolutionRepo solutionRepo;
-    private static final int EXPECTED_RESULT = 66;
     private final CalculService calculService;
+    private static final int EXPECTED_RESULT = 66;
 
     @Autowired
     public SolutionService(SolutionRepo solutionRepo, CalculService calculService) {
