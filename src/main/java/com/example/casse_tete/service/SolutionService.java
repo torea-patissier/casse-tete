@@ -13,12 +13,14 @@ public class SolutionService {
 
     private final SolutionRepo solutionRepo;
     private final CalculService calculService;
+    private final JsonService jsonService;
     private static final int EXPECTED_RESULT = 66;
 
     @Autowired
-    public SolutionService(SolutionRepo solutionRepo, CalculService calculService) {
+    public SolutionService(SolutionRepo solutionRepo, CalculService calculService, JsonService jsonService){
         this.solutionRepo = solutionRepo;
         this.calculService = calculService;
+        this.jsonService = jsonService;
     }
 
     public Solution postSolution(Solution solution) {
@@ -26,7 +28,7 @@ public class SolutionService {
         if (solution == null || solution.getGridData() == null || solution.getGridData().trim().isEmpty()) {
             throw new IllegalArgumentException("Solution must have a valid gridData");
         }
-            int result = calculService.calculResult(calculService.parseJson(solution.getGridData()));
+            int result = calculService.calculResult(jsonService.parseJson(solution.getGridData()));
             if(result == EXPECTED_RESULT){
                 solution.setCorrect(true);
             }

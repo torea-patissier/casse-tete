@@ -1,13 +1,8 @@
 package com.example.casse_tete.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class CalculService {
@@ -16,47 +11,12 @@ public class CalculService {
     private static final int SECOND_INPUT = 12;
     private static final int THIRD_INPUT = 11;
     private static final int FOURTH_INPUT = 10;
-    private static final Set<String> EXPECTED_KEYS = Set.of("A", "B", "C", "D", "E", "F", "G", "H", "I");
 
-    static void isValidJson(JsonNode jsonNode) {
-        List<String> missingKeys = new ArrayList<>();
-        List<String> invalidKeys = new ArrayList<>();
+    private final JsonService jsonService;
 
-        for (String key : EXPECTED_KEYS) {
-            JsonNode valueNode = jsonNode.get(key);
-
-            if (valueNode == null) {
-                missingKeys.add(key);
-                continue;
-            }
-
-            if (!valueNode.isInt()) {
-                invalidKeys.add(key + " (not an integer)");
-            } else {
-                int value = valueNode.asInt();
-                if (value < 1 || value > 9) {
-                    invalidKeys.add(key + " (value: " + value + " | should be between 1 and 9)");
-                }
-            }
-        }
-
-        if (!missingKeys.isEmpty() || !invalidKeys.isEmpty()){
-            throw new RuntimeException(
-                (missingKeys.isEmpty() ? "" : "Missing keys: " + String.join(", ", missingKeys) + ". ") +
-                (invalidKeys.isEmpty() ? "" : "Invalid values: " + String.join(", ", invalidKeys) + ".")
-            );
-        }
-    }
-
-
-
-    static JsonNode parseJson(String gridData) {
-        try {
-            JsonNode json = new ObjectMapper().readTree(gridData);
-            return json;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error while parsing gridData : " + e);
-        }
+    @Autowired
+    public CalculService(JsonService jsonService){
+        this.jsonService = jsonService;
     }
 
     public int calculA(JsonNode jsonNode){
@@ -90,8 +50,7 @@ public class CalculService {
     }
 
     public int calculResult(JsonNode jsonNode){
-        isValidJson(jsonNode);
-
+        jsonService.isValidJson(jsonNode);
         try {
             int A = jsonNode.get("A").asInt();
             int D = jsonNode.get("D").asInt();
