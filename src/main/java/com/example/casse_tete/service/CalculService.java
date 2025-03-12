@@ -16,15 +16,14 @@ public class CalculService {
     private static final int FOURTH_INPUT = 10;
     private static final Set<String> EXPECTED_KEYS = Set.of("A", "B", "C", "D", "E", "F", "G", "H", "I");
 
-    static boolean isValidJson(JsonNode jsonNode) {
+    static void isValidJson(JsonNode jsonNode) {
         for (String key : EXPECTED_KEYS) {
             if (!jsonNode.has(key)) {
-                System.out.println("\n" + key + " is missing");
-                return false;
+                throw new RuntimeException("Missing key: " + key);
             }
         }
-        return true;
     }
+
 
     static JsonNode parseJson(String gridData) {
         try {
@@ -66,10 +65,7 @@ public class CalculService {
     }
 
     public int calculResult(JsonNode jsonNode){
-
-        if (!isValidJson(jsonNode)) {
-            throw new RuntimeException("Invalid JSON data provided.");
-        }
+        isValidJson(jsonNode);
 
         try {
             int A = jsonNode.get("A").asInt();

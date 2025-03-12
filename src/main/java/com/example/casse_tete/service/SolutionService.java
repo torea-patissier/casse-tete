@@ -26,21 +26,15 @@ public class SolutionService {
         if (solution == null || solution.getGridData() == null || solution.getGridData().trim().isEmpty()) {
             throw new IllegalArgumentException("Solution must have a valid gridData");
         }
-
-        try {
             int result = calculService.calculResult(calculService.parseJson(solution.getGridData()));
             if(result == EXPECTED_RESULT){
                 solution.setCorrect(true);
             }
-
             solution.setResult(result);
             long endTime = System.currentTimeMillis();
             long duration = endTime - startTime ;
             solution.setDuration_in_ms(duration);
             return solutionRepo.save(solution);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to process solution: Invalid gridData format", e);
-        }
     }
 
     public Solution getSolution(Long id) {
