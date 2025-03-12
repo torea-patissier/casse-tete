@@ -3,7 +3,6 @@ package com.example.casse_tete.controller;
 import com.example.casse_tete.model.Solution;
 import com.example.casse_tete.service.AlgoService;
 import com.example.casse_tete.service.SolutionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +27,9 @@ public class SolutionController {
         return new ResponseEntity<>(solutionObj, HttpStatus.CREATED);
     }
 
-    @PostMapping("/algo")
+    @PostMapping("/calculateSolutions")
     public ResponseEntity<String> forLoop(){
-        String algo = algoService.algo();
+        String algo = algoService.calculateSolutions();
         return new ResponseEntity<>(algo, HttpStatus.OK);
     }
 

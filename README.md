@@ -26,14 +26,14 @@ Run the CasseTeteApplication, access the H2 database :
 | I        | 4      |
 
 ### The operations are:
-| Operation | Value      |
-|-----------|------------|
-| calculA   | 13 * B / C |
-| calculB   | 12 * E     |
-| calculC   | G * H / I  |
+| Operation  | Value      |
+|------------|------------|
+| calculateA | 13 * B / C |
+| calculateB | 12 * E     |
+| calculateC | G * H / I  |
 
 ### The final equation is:
-- A + calculA + D + calculB - F - 11 + calculC - 10
+- A + calculateA + D + calculateB - F - 11 + calculateC - 10
 
 ## How I proceed to calculate the solution
 - I start by giving a letter for each position in the equation
