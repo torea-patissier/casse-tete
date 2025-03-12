@@ -11,7 +11,6 @@ public class ValidJsonService {
     private static final Set<String> EXPECTED_KEYS = Set.of("A", "B", "C", "D", "E", "F", "G", "H", "I");
 
     public void isValidJson (JsonNode jsonNode){
-        System.out.println("\n \n Hello : \n \n" + EXPECTED_KEYS);
 
         for(String key :  EXPECTED_KEYS){
             if (!jsonNode.has(key)) {
