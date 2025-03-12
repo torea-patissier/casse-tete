@@ -1,7 +1,9 @@
 package com.example.casse_tete.controller;
 
 import com.example.casse_tete.model.Solution;
+import com.example.casse_tete.service.AlgoService;
 import com.example.casse_tete.service.SolutionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +15,23 @@ import java.util.List;
 public class SolutionController {
 
     private final SolutionService solutionService;
+    private final AlgoService algoService;
 
-    public SolutionController(SolutionService solutionService) {
+    public SolutionController(SolutionService solutionService, AlgoService algoService) {
         this.solutionService = solutionService;
+        this.algoService = algoService;
     }
 
     @PostMapping
     public ResponseEntity<Solution> postSolution(@RequestBody Solution solution) {
         Solution solutionObj = solutionService.postSolution(solution);
         return new ResponseEntity<>(solutionObj, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/algo")
+    public ResponseEntity<String> forLoop(){
+        algoService.forLoop();
+        return new ResponseEntity<>("For loop executed", HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
