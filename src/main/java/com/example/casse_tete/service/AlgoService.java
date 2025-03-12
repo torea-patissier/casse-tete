@@ -17,20 +17,17 @@ public class AlgoService {
                 System.out.println(i);
             }
         }
-        long durationNs = System.nanoTime() - startTime; // Elapsed time in nanoseconds
-        long durationMs = durationNs / TO_MS; // Convert to milliseconds
-        double durationSec = durationNs / TO_SC; // Convert to seconds
+        long durationNs = System.nanoTime() - startTime;
+        long durationMs = durationNs / TO_MS;
+        double durationSec = durationNs / TO_SC;
 
-        // Print results
         System.out.println("Duration: " + durationMs + " ms (" + durationSec + " sec)");
-
         return "Duration: " + durationMs + " ms (" + durationSec + " sec)";
     }
 
     public static boolean isUnique(int tryNumber) {
         String str = String.valueOf(tryNumber);
         if (str.length() != 9) return false;
-
         for (char c = '1'; c <= '9'; c++) {
             if (str.indexOf(c) == -1) return false;
             if (str.indexOf(c) != str.lastIndexOf(c)) return false;
