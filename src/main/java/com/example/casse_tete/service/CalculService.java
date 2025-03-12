@@ -19,27 +19,35 @@ public class CalculService {
     private static final Set<String> EXPECTED_KEYS = Set.of("A", "B", "C", "D", "E", "F", "G", "H", "I");
 
     static void isValidJson(JsonNode jsonNode) {
-
         List<String> missingKeys = new ArrayList<>();
-        List<String> invalidNumber = new ArrayList<>();
+        List<String> invalidKeys = new ArrayList<>();
 
         for (String key : EXPECTED_KEYS) {
-            if (!jsonNode.has(key)) {
+            JsonNode valueNode = jsonNode.get(key);
+
+            if (valueNode == null) {
                 missingKeys.add(key);
+                continue;
             }
-            if(jsonNode.get(key).asInt() < 1 || jsonNode.get(key).asInt() > 9){
-                invalidNumber.add(key);
+
+            if (!valueNode.isInt()) {
+                invalidKeys.add(key + " (not an integer)");
+            } else {
+                int value = valueNode.asInt();
+                if (value < 1 || value > 9) {
+                    invalidKeys.add(key + " (value: " + value + " | should be between 1 and 9)");
+                }
             }
         }
 
-        if (!missingKeys.isEmpty()) {
-            throw new RuntimeException("Missing key: " + missingKeys);
-        }
-
-        if(!invalidNumber.isEmpty()){
-            throw new RuntimeException("Invalid number: " + invalidNumber);
+        if (!missingKeys.isEmpty() || !invalidKeys.isEmpty()){
+            throw new RuntimeException(
+                (missingKeys.isEmpty() ? "" : "Missing keys: " + String.join(", ", missingKeys) + ". ") +
+                (invalidKeys.isEmpty() ? "" : "Invalid values: " + String.join(", ", invalidKeys) + ".")
+            );
         }
     }
+
 
 
     static JsonNode parseJson(String gridData) {

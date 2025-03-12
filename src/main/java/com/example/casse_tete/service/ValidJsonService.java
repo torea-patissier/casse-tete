@@ -7,15 +7,4 @@ import java.util.Set;
 
 @Service
 public class ValidJsonService {
-
-    private static final Set<String> EXPECTED_KEYS = Set.of("A", "B", "C", "D", "E", "F", "G", "H", "I");
-
-    public void isValidJson (JsonNode jsonNode){
-
-        for(String key :  EXPECTED_KEYS){
-            if (!jsonNode.has(key)) {
-                System.out.println('\n' + key + " is missing");
-            }
-        }
-    }
 }
