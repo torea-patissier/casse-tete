@@ -126,4 +126,16 @@ public class SolutionService {
     public void deleteAllSolutions() {
         solutionRepo.deleteAll();
     }
+
+    public Solution updateSolution(Solution solution) {
+
+        Optional<Solution> existingSolution = solutionRepo.findById(solution.getId());
+        if (existingSolution.isEmpty()) {
+            throw new RuntimeException("Solution with ID " + solution.getId() + " not found");
+        }
+
+        return postSolution(solution);
+    }
+
+
 }
