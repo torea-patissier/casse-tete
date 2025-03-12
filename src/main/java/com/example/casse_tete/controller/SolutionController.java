@@ -30,8 +30,8 @@ public class SolutionController {
 
     @PostMapping("/algo")
     public ResponseEntity<String> forLoop(){
-        algoService.forLoop();
-        return new ResponseEntity<>("For loop executed", HttpStatus.OK);
+        String algo = algoService.algo();
+        return new ResponseEntity<>(algo, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
