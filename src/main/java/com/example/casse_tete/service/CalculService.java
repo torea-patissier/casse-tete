@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -17,11 +19,18 @@ public class CalculService {
     private static final Set<String> EXPECTED_KEYS = Set.of("A", "B", "C", "D", "E", "F", "G", "H", "I");
 
     static void isValidJson(JsonNode jsonNode) {
+        List<String> missingKeys = new ArrayList<>();
+
         for (String key : EXPECTED_KEYS) {
             if (!jsonNode.has(key)) {
-                throw new RuntimeException("Missing key: " + key);
+                missingKeys.add(key);
             }
         }
+
+        if (!missingKeys.isEmpty()) {
+            throw new RuntimeException("Missing key: " + missingKeys);
+        }
+
     }
 
 
