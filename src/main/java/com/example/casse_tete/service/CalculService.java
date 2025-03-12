@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class CalculService {
 
@@ -13,17 +15,22 @@ public class CalculService {
     private static final int SECOND_INPUT = 12;
     private static final int THIRD_INPUT = 11;
     private static final int FOURTH_INPUT = 10;
-    private static ValidJsonService validJsonService = new ValidJsonService();
+    private static final Set<String> EXPECTED_KEYS = Set.of("A", "B", "C", "D", "E", "F", "G", "H", "I");
 
-    @Autowired
-    public CalculService(ValidJsonService validJsonService) {
-        this.validJsonService = validJsonService;
+    static boolean isValidJson(JsonNode jsonNode) {
+        for (String key : EXPECTED_KEYS) {
+            if (!jsonNode.has(key)) {
+                System.out.println("\n" + key + " is missing");
+                return false;
+            }
+        }
+        return true;
     }
 
     static JsonNode parseJson(String gridData) {
-        validJsonService.show();
         try {
-            return new ObjectMapper().readTree(gridData);
+            JsonNode json = new ObjectMapper().readTree(gridData);
+            return json;
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error while parsing gridData : " + e);
         }
@@ -60,6 +67,11 @@ public class CalculService {
     }
 
     public int calculResult(JsonNode jsonNode){
+
+        if (!isValidJson(jsonNode)) {
+            throw new RuntimeException("Invalid JSON data provided.");
+        }
+
         try {
             int A = jsonNode.get("A").asInt();
             int D = jsonNode.get("D").asInt();
