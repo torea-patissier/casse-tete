@@ -52,15 +52,13 @@ public class SolutionController {
         return ResponseEntity.noContent().build();
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<Solution> updateSolution(@RequestBody Solution solution, @PathVariable Long id) {
         if (solution == null || solution.getGridData() == null || solution.getGridData().trim().isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
-
         solution.setId(id);
-        Solution updatedSolution = solutionService.postSolution(solution);
+        Solution updatedSolution = solutionService.updateSolution(solution);
         return new ResponseEntity<>(updatedSolution, HttpStatus.OK);
     }
 }
