@@ -19,11 +19,16 @@ public class CalculService {
     private static final Set<String> EXPECTED_KEYS = Set.of("A", "B", "C", "D", "E", "F", "G", "H", "I");
 
     static void isValidJson(JsonNode jsonNode) {
+
         List<String> missingKeys = new ArrayList<>();
+        List<String> invalidNumber = new ArrayList<>();
 
         for (String key : EXPECTED_KEYS) {
             if (!jsonNode.has(key)) {
                 missingKeys.add(key);
+            }
+            if(jsonNode.get(key).asInt() < 1 || jsonNode.get(key).asInt() > 9){
+                invalidNumber.add(key);
             }
         }
 
@@ -31,6 +36,9 @@ public class CalculService {
             throw new RuntimeException("Missing key: " + missingKeys);
         }
 
+        if(!invalidNumber.isEmpty()){
+            throw new RuntimeException("Invalid number: " + invalidNumber);
+        }
     }
 
 
