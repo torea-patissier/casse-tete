@@ -11,7 +11,7 @@ public class AlgoService {
 
     private final SolutionRepo solutionRepo;
     private static final long TO_MS = 1_000_000L;
-    private long permutationCount = 0;
+    private long PERMUTATION_COUNT = 0;
     private int RESULT = 66;
 
     public AlgoService(SolutionRepo solutionRepo) {
@@ -24,18 +24,16 @@ public class AlgoService {
         List<List<Integer>> generatedSolutions = new ArrayList<>();
         List<Integer> digits = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-        permutationCount = 0;
+        PERMUTATION_COUNT = 0;
         applyPermutation(digits, 0, generatedSolutions);
-
-        long durationMs = (System.nanoTime() - startTime) / TO_MS;
-
         registerSolutions(generatedSolutions);
-        return "Duration: " + durationMs + " ms, Permutations tested: " + permutationCount + ", Solutions found: " + generatedSolutions.size() + " (saved in DB)";
+        long durationMs = (System.nanoTime() - startTime) / TO_MS;
+        return "Duration: " + durationMs + " ms, Permutations tested: " + PERMUTATION_COUNT + ", Solutions found: " + generatedSolutions.size() + " (saved in DB)";
     }
 
     private void applyPermutation(List<Integer> arr, int startIndex, List<List<Integer>> validResults) {
         if (startIndex == arr.size()) {
-            permutationCount++;
+            PERMUTATION_COUNT++;
             List<Integer> numbers = new ArrayList<>(arr);
 
             if (isValidResult(numbers)) {
