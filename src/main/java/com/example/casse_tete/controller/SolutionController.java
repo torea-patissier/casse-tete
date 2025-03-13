@@ -63,7 +63,7 @@ public class SolutionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Solution> updateSolution(@RequestBody Solution solution, @PathVariable Long id) {
-        if (solution == null || solution.getGridData() == null || solution.getGridData().trim().isEmpty()) {
+        if (solution == null || solution.getGridData() == null || solution.getGridData().isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
         solution.setId(id);

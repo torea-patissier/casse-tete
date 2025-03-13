@@ -73,7 +73,7 @@ public class AlgoService {
     private void registerSolutions(List<List<Integer>> validResults) {
         for (List<Integer> numbers : validResults) {
             Solution solution = new Solution();
-            solution.setGridData(numbers.toString());
+            solution.setGridData(numbers);
             solution.setResult(RESULT);
             solution.setCorrect(true);
             solutionRepo.save(solution);

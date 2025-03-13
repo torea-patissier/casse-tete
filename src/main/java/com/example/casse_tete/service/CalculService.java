@@ -1,8 +1,7 @@
 package com.example.casse_tete.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class CalculService {
@@ -12,58 +11,38 @@ public class CalculService {
     private static final int THIRD_INPUT = 11;
     private static final int FOURTH_INPUT = 10;
 
-    private final JsonService jsonService;
-
-    @Autowired
-    public CalculService(JsonService jsonService){
-        this.jsonService = jsonService;
+    public int calculA(int B, int C) {
+        return (FIRST_INPUT * B) / C;
     }
 
-    public int calculA(JsonNode jsonNode){
-        try {
-            int B = jsonNode.get("B").asInt();
-            int C = jsonNode.get("C").asInt();
-            return (FIRST_INPUT * B) / C;
-        } catch (Exception ex) {
-            throw new RuntimeException("Error while calculating A :" + ex.getMessage());
-        }
+    public int calculB(int E) {
+        return SECOND_INPUT * E;
     }
 
-    public int calculB(JsonNode jsonNode){
-        try{
-            int E = jsonNode.get("E").asInt();
-            return SECOND_INPUT * E;
-        } catch (RuntimeException ex) {
-            throw new RuntimeException("Error while calculating B :" + ex.getMessage());
-        }
+    public int calculC(int G, int H, int I) {
+        return (G * H) / I;
     }
 
-    public int calculC(JsonNode jsonNode){
-        try{
-            int G = jsonNode.get("G").asInt();
-            int H = jsonNode.get("H").asInt();
-            int I = jsonNode.get("I").asInt();
-            return (G * H) / I;
-        } catch (RuntimeException ex) {
-            throw new RuntimeException("Error while calculating C :" + ex.getMessage());
+    public int calculResult(List<Integer> numbers) {
+
+        if (numbers.size() < 9) {
+            throw new IllegalArgumentException("Invalid input: At least 9 numbers are required.");
         }
-    }
 
-    public int calculResult(JsonNode jsonNode){
-        jsonService.isValidJson(jsonNode);
-        try {
-            int A = jsonNode.get("A").asInt();
-            int D = jsonNode.get("D").asInt();
-            int F = jsonNode.get("F").asInt();
+        int A = numbers.get(0);
+        int B = numbers.get(1);
+        int C = numbers.get(2);
+        int D = numbers.get(3);
+        int E = numbers.get(4);
+        int F = numbers.get(5);
+        int G = numbers.get(6);
+        int H = numbers.get(7);
+        int I = numbers.get(8);
 
-            int aResult = calculA(jsonNode);
-            int bResult = calculB(jsonNode);
-            int cResult = calculC(jsonNode);
+        int aResult = calculA(B, C);
+        int bResult = calculB(E);
+        int cResult = calculC(G, H, I);
 
-            int result = A + aResult + D + bResult - F - THIRD_INPUT + cResult - FOURTH_INPUT;
-            return result;
-        } catch (Exception ex) {
-            throw new RuntimeException("Error while calculating result");
-        }
+        return A + aResult + D + bResult - F - THIRD_INPUT + cResult - FOURTH_INPUT;
     }
 }

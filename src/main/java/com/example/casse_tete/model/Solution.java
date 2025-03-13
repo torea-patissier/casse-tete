@@ -3,6 +3,8 @@ package com.example.casse_tete.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="Solutions")
 @NoArgsConstructor
@@ -16,12 +18,7 @@ public class Solution {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
-    private String gridData;
-
-    @Column(nullable = false)
+    private List<Integer> gridData;
     private Integer result;
-
-    @Column(nullable = false)
     private boolean isCorrect = false;
 }
