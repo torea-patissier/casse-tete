@@ -75,6 +75,7 @@ public class AlgoService {
             Solution solution = new Solution();
             solution.setGridData(numbers);
             solution.setResult(RESULT);
+            solution.setAlgoGenerated(true);
             solution.setCorrect(true);
             solutionRepo.save(solution);
         }

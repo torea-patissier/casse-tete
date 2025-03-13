@@ -17,8 +17,8 @@ public class Solution {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private List<Integer> gridData;
     private Integer result;
     private boolean isCorrect = false;
+    private boolean isAlgoGenerated = false;
 }
