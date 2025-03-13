@@ -24,7 +24,6 @@ public class SolutionService {
     }
 
     public Solution postSolution(Solution solution) {
-        long startTime = System.currentTimeMillis();
         if (solution == null || solution.getGridData() == null || solution.getGridData().trim().isEmpty()) {
             throw new IllegalArgumentException("Solution must have a valid gridData");
         }
@@ -33,9 +32,6 @@ public class SolutionService {
                 solution.setCorrect(true);
             }
             solution.setResult(result);
-            long endTime = System.currentTimeMillis();
-            long duration = endTime - startTime ;
-            solution.setDuration_in_ms(duration);
             return solutionRepo.save(solution);
     }
 

@@ -29,7 +29,7 @@ public class AlgoService {
 
         long durationMs = (System.nanoTime() - startTime) / TO_MS;
 
-        registerSolutions(generatedSolutions, durationMs);
+        registerSolutions(generatedSolutions);
         return "Duration: " + durationMs + " ms, Permutations tested: " + permutationCount + ", Solutions found: " + generatedSolutions.size() + " (saved in DB)";
     }
 
@@ -70,13 +70,12 @@ public class AlgoService {
         return result == RESULT;
     }
 
-    private void registerSolutions(List<List<Integer>> validResults, long durationMs) {
+    private void registerSolutions(List<List<Integer>> validResults) {
         for (List<Integer> numbers : validResults) {
             Solution solution = new Solution();
             solution.setGridData(numbers.toString());
             solution.setResult(RESULT);
             solution.setCorrect(true);
-            solution.setDuration_in_ms(durationMs);
             solutionRepo.save(solution);
         }
     }

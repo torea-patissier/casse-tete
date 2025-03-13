@@ -24,8 +24,4 @@ public class Solution {
 
     @Column(nullable = false)
     private boolean isCorrect = false;
-
-    @Column(nullable = false)
-    private Long duration_in_ms;
-
 }
