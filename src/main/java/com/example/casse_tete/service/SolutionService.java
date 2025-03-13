@@ -13,22 +13,25 @@ public class SolutionService {
 
     private final SolutionRepo solutionRepo;
     private final CalculService calculService;
+    private final InputValidationService inputValidationService;
     private static final int EXPECTED_RESULT = 66;
 
     @Autowired
-    public SolutionService(SolutionRepo solutionRepo, CalculService calculService){
+    public SolutionService(SolutionRepo solutionRepo, CalculService calculService, InputValidationService inputValidationService){
         this.solutionRepo = solutionRepo;
         this.calculService = calculService;
+        this.inputValidationService = inputValidationService;
     }
 
     public Solution postSolution(Solution solution) {
         if (solution == null || solution.getGridData() == null || solution.getGridData().isEmpty()) {
             throw new IllegalArgumentException("Solution must have a valid gridData");
         }
+            inputValidationService.isValidList(solution.getGridData());
             int result = calculService.calculResult(solution.getGridData());
-            if(result == EXPECTED_RESULT){
-                solution.setCorrect(true);
-            }
+        if(result == EXPECTED_RESULT){
+            solution.setCorrect(true);
+        }
             solution.setResult(result);
             return solutionRepo.save(solution);
     }
