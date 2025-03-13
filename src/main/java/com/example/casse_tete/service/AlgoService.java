@@ -23,7 +23,6 @@ public class AlgoService {
 
         List<List<Integer>> generatedSolutions = new ArrayList<>();
         List<Integer> digits = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-
         PERMUTATION_COUNT = 0;
         applyPermutation(digits, 0, generatedSolutions);
         registerSolutions(generatedSolutions);

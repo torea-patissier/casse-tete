@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/solutions")
@@ -28,9 +30,14 @@ public class SolutionController {
     }
 
     @GetMapping("/algorithm")
-    public ResponseEntity<String> forLoop(){
-        String algo = algoService.algorithm();
-        return new ResponseEntity<>(algo, HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> algorithm() {
+        String algoResult = algoService.algorithm();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", algoResult);
+        response.put("status", "success");
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
