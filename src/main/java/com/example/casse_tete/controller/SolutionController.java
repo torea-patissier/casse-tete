@@ -27,9 +27,9 @@ public class SolutionController {
         return new ResponseEntity<>(solutionObj, HttpStatus.CREATED);
     }
 
-    @PostMapping("/calculateSolutions")
+    @GetMapping("/algorithm")
     public ResponseEntity<String> forLoop(){
-        String algo = algoService.calculateSolutions();
+        String algo = algoService.algorithm();
         return new ResponseEntity<>(algo, HttpStatus.OK);
     }
 

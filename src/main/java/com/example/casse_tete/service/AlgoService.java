@@ -18,7 +18,7 @@ public class AlgoService {
         this.solutionRepo = solutionRepo;
     }
 
-    public String calculateSolutions() {
+    public String algorithm() {
         long startTime = System.nanoTime();
 
         List<List<Integer>> generatedSolutions = new ArrayList<>();
@@ -30,7 +30,7 @@ public class AlgoService {
         long durationMs = (System.nanoTime() - startTime) / TO_MS;
 
         registerSolutions(generatedSolutions, durationMs);
-        return "Duration: " + durationMs + " ms, Permutations tested: " + permutationCount;
+        return "Duration: " + durationMs + " ms, Permutations tested: " + permutationCount + ", Solutions found: " + generatedSolutions.size() + " (saved in DB)";
     }
 
     private void applyPermutation(List<Integer> arr, int startIndex, List<List<Integer>> validResults) {
@@ -38,7 +38,7 @@ public class AlgoService {
             permutationCount++;
             List<Integer> numbers = new ArrayList<>(arr);
 
-            if (isValid(numbers)) {
+            if (isValidResult(numbers)) {
                 validResults.add(numbers);
             }
             return;
@@ -51,7 +51,7 @@ public class AlgoService {
         }
     }
 
-    private boolean isValid(List<Integer> numbers) {
+    private boolean isValidResult(List<Integer> numbers) {
         int a = numbers.get(0);
         int b = numbers.get(1);
         int c = numbers.get(2);
@@ -61,10 +61,6 @@ public class AlgoService {
         int g = numbers.get(6);
         int h = numbers.get(7);
         int i = numbers.get(8);
-
-        if (b != 9 || c != 3 || e != 2 || f != 1 || i != 4) {
-            return false;
-        }
 
         int calculateA = (13 * b) / c;
         int calculateB = 12 * e;
@@ -81,9 +77,7 @@ public class AlgoService {
             solution.setResult(RESULT);
             solution.setCorrect(true);
             solution.setDuration_in_ms(durationMs);
-
             solutionRepo.save(solution);
         }
-        System.out.println("✅ Solutions saved to database.");
     }
 }
