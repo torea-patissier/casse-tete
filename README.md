@@ -95,6 +95,8 @@ To interact directly with the H2 database:
 
 The application performs calculations based on the following operations:
 
+**To complete the puzzle, the application must compute the final equation by substituting the following operations and values : 66**
+
 | Operation  | Value      |
 |------------|------------|
 | calculateA | 13 * B / C |
