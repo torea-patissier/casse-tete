@@ -40,6 +40,11 @@ public class SolutionController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/filtered")
+    public List<Solution> getGeneratedAlgorithmSolutions(@RequestParam boolean isAlgoGenerated) {
+        return solutionService.getGeneratedAlgorithmSolutions(isAlgoGenerated);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Solution> getSolution(@PathVariable Long id){
         Solution solution = solutionService.getSolution(id);

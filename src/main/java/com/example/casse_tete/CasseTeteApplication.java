@@ -10,4 +10,5 @@ public class CasseTeteApplication {
 		SpringApplication.run(CasseTeteApplication.class, args);
 	}
 
+
 }

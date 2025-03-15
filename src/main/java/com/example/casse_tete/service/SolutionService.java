@@ -41,6 +41,10 @@ public class SolutionService {
         return solution.orElseThrow(() -> new RuntimeException("Solution with ID " + id + " not found"));
     }
 
+    public List<Solution> getGeneratedAlgorithmSolutions(boolean isAlgoGenerated) {
+        return solutionRepo.findByIsAlgoGenerated(isAlgoGenerated);
+    }
+
     public List<Solution> getAllSolutions() {
         List<Solution> solutions = solutionRepo.findAll();
         if (solutions.isEmpty()) {
