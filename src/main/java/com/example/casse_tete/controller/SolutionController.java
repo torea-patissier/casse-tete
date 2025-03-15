@@ -40,7 +40,7 @@ public class SolutionController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/filtered")
+    @GetMapping("/filter")
     public List<Solution> getGeneratedAlgorithmSolutions(@RequestParam boolean isAlgoGenerated) {
         return solutionService.getGeneratedAlgorithmSolutions(isAlgoGenerated);
     }
