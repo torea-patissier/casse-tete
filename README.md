@@ -52,8 +52,6 @@ Before running the application, ensure you have the following installed:
 
 ## Configuration
 
-The application is pre-configured to use an H2 database stored at `./data/testdb`. Default database credentials are set as follows:
-
 - **JDBC URL**: `jdbc:h2:file:mem:testdb`
 - **Username**: `sa`
 - **Password**: *(leave empty)*
