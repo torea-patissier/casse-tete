@@ -12,20 +12,17 @@ CasseTeteApplication is a Java-based application designed to solve a specific pu
 - [Database Access](#database-access)
 - [Operations and Equations](#operations-and-equations)
 - [Project Structure](#project-structure)
+- [Docker](#docker)
 - [Contributing](#contributing)
 - [License](#license)
 
-
 ## Tech Stack
 - **Java**: Core language used for development.
-
 - **Spring Boot**: Framework for building the application with embedded Tomcat.
-
 - **Spring Data JPA**: Abstraction layer for database operations.
-
 - **H2 Database**: Lightweight in-memory database for testing and development.
-
 - **Maven**: Build automation and dependency management.
+
 ## Prerequisites
 
 Before running the application, ensure you have the following installed:
@@ -57,7 +54,7 @@ Before running the application, ensure you have the following installed:
 
 The application is pre-configured to use an H2 database stored at `./data/testdb`. Default database credentials are set as follows:
 
-- **JDBC URL**: `jdbc:h2:file:./data/testdb`
+- **JDBC URL**: `jdbc:h2:file:mem:testdb`
 - **Username**: `sa`
 - **Password**: *(leave empty)*
 
@@ -83,13 +80,13 @@ To interact directly with the H2 database:
 
 1. **Access the H2 Console**:
 
-   Open your web browser and navigate to [http://localhost:9090/h2/](http://localhost:9090/h2/).
+   Open your web browser and navigate to [http://localhost:8086/h2/](http://localhost:9090/h2/).
 
 2. **Connect to the Database**:
 
-    - **JDBC URL**: `jdbc:h2:file:mem:testdb`
-    - **Username**: `sa`
-    - **Password**: *(leave empty)*
+   - **JDBC URL**: `jdbc:h2:file:mem:testdb`
+   - **Username**: `sa`
+   - **Password**: *(leave empty)*
 
 ## Operations and Equations
 
@@ -122,4 +119,44 @@ A + calculateA + D + calculateB - F - 11 + calculateC - 10
 │   │   │       ├── model/                      # Data models representing entities
 │   │   │       ├── repo/                       # Data access layer (repository interfaces for DB operations)
 │   │   │       └── service/                    # Business logic layer handling application operations
+```
+
+## Docker
+
+To containerize the application using Docker, follow these steps:
+
+1. **Create a Docker image**:
+
+   ```bash
+   docker build -t casse-tete-app .
+   ```
+
+2. **Run the Docker container**:
+
+   ```bash
+   docker run -p 8086:8086 casse-tete-app
+   ```
+
+3. **Access the Application**:
+
+   Once the container is running, access the application at:
+
+   ```
+   http://localhost:8086
+   ```
+
+### Dockerfile
+
+Here is the Dockerfile used to containerize the application:
+
+```dockerfile
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /app
+
+COPY target/casse-tete-0.0.1-SNAPSHOT.jar app.jar
+
+EXPOSE 8085
+
+CMD ["java", "-jar", "app.jar"]
 ```
