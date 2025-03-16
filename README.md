@@ -154,7 +154,7 @@ WORKDIR /app
 
 COPY target/casse-tete-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 8085
+EXPOSE 8086
 
 CMD ["java", "-jar", "app.jar"]
 ```
